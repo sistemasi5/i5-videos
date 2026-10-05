@@ -5,3 +5,12 @@ dist
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# Reference videos (heavy, local only)
+referencias
+
+# Midia de teste/trabalho (pesada, nao vai para o repositorio)
+public/apresentador-*
+public/fundo-*
+public/legendas/
+__pycache__
