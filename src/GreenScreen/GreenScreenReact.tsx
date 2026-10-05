@@ -18,9 +18,9 @@ export const FPS = 30;
 const CTA_ULTIMOS_SEGUNDOS = 6;
 
 export const greenScreenDefaults: GreenScreenProps = {
-  fundoSrc: "fundo-reel.mp4",
-  apresentadorQuadros: "apresentador-teste",
-  audioSrc: "apresentador-teste.mp4",
+  fundoSrc: "videos/teste/fundo.mp4",
+  apresentadorQuadros: "videos/teste/quadros",
+  audioSrc: "videos/teste/apresentador.mp4",
   duracaoSegundos: 25,
   fundoDuracaoSegundos: 26.3,
   apresentadorLargura: 0.57,

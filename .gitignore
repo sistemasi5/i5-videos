@@ -10,7 +10,5 @@ out
 referencias
 
 # Midia de teste/trabalho (pesada, nao vai para o repositorio)
-public/apresentador-*
-public/fundo-*
-public/legendas/
+public/videos/
 __pycache__
