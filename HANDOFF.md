@@ -195,6 +195,7 @@ i5-videos/
 | `ffmpeg` sem filtro `fps` ou `tile` | O ffmpeg do Remotion é enxuto: use `-r 30` e extraia quadros um a um; chame via `node`, não via shell do Windows |
 | Download de link do Instagram falha | Só funciona para Reels públicos. Peça o arquivo e coloque em `referencias/` |
 | Vídeo e áudio baixados separados | Normal no Instagram: o script junta com `-c copy` |
+| `falhou, tentando de novo` / `No frame found at position` no render | Computador sem CPU ou memória livre. O script tenta de novo sozinho (até 3 vezes, com menos carga). Se falhar nas 3, feche navegador, Slack e outros programas e rode de novo |
 | Recorte muito lento | Esperado em CPU (~1 s/quadro). Use vídeos curtos e rode em segundo plano |
 | `git clone` termina com aviso de arquivos não extraídos (Windows) | Caminho longo demais: rode `git config --global core.longpaths true`, apague a pasta e clone de novo numa pasta curta |
 | `git clone` pede chave SSH | Use a URL HTTPS acima, ou peça para adicionarem sua chave SSH |

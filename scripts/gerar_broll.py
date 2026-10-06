@@ -74,6 +74,7 @@ def preparar(origem, destino, inicio, dur):
         "-ss", inicio, "-t", dur, "-i", origem, "-an", "-r", 30,
         "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
         "-c:v", "libx264", "-crf", "23", "-maxrate", "10M", "-bufsize", "20M",
+        "-g", "15", "-keyint_min", "15",
         "-pix_fmt", "yuv420p", destino,
     )
 
@@ -143,12 +144,15 @@ def main():
     saida.parent.mkdir(exist_ok=True)
     cmd = ["node", str(CLI), "render", "src/index.ts", "BrollInformativo", str(saida),
            f"--props={props_json}", "--crf=23"]
-    for tentativa in (1, 2):  # o render às vezes falha de forma intermitente
-        if subprocess.run(cmd, cwd=RAIZ).returncode == 0:
+    # O Remotion às vezes falha com "No frame found at position" quando o computador está
+    # sem CPU/memória livre. Nas novas tentativas, o render usa menos carga.
+    for tentativa, extra in enumerate(([], ["--concurrency=2"], ["--concurrency=1"]), 1):
+        if subprocess.run(cmd + extra, cwd=RAIZ).returncode == 0:
             break
-        if tentativa == 2:
-            sys.exit("O render falhou duas vezes.")
-        print("   falhou, tentando de novo")
+        if tentativa == 3:
+            sys.exit("O render falhou 3 vezes. Feche outros programas (navegador, Slack...) "
+                     "para liberar memória e tente de novo.")
+        print(f"   falhou, tentando de novo com menos carga ({tentativa}/3)")
 
     print("3/3 Fluidez")
     subprocess.run([PY, "scripts/verificar_fluidez.py", str(saida)], check=True, cwd=RAIZ)

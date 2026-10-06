@@ -62,6 +62,10 @@ segundo do clipe), `--ajustes '{"areaTopo": 500}'` (ver abaixo).
 
 O script copia/baixa o clipe, renderiza e confere a fluidez. Saída: `out/<nome>.mp4`.
 **Tempo:** só render, ~1 a 3 min. Não roda recorte nem transcrição. Rode local, nunca na VPS.
+**Se aparecer "falhou, tentando de novo":** é o Remotion com erro `No frame found at position`, que
+acontece quando o computador está sem CPU ou memória livre. O script tenta até 3 vezes, cada uma
+com menos carga. Se falhar nas 3, peça para a pessoa fechar navegador, Slack e outros programas
+pesados e rodar de novo.
 
 ## Antes de entregar
 
