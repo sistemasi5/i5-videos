@@ -16,6 +16,7 @@ ela saiba nomes de skills ou comandos.
 | Modelo (nome que o marketing conhece) | Para que serve | Skill (uso interno) |
 |---|---|---|
 | Green Screen — React de vídeos e notícias | Apresentador na frente de um vídeo ou notícia, com legenda palavra por palavra e chamada (CTA) no final | `green-screen-react` |
+| Vídeo B-roll informativo | Um clipe de fundo (casas, obra...) de 15 a 20 s com texto em caixinhas pretas, brancas e vermelhas por cima, estilo legenda do Instagram. Sai sem som: a música é escolhida no Instagram | `broll-informativo` |
 
 Ao receber um pedido ("faz um vídeo no modelo green screen", "quero reagir a esse vídeo"),
 use a skill correspondente em `.claude/skills/` e faça só as perguntas que faltarem.

@@ -8,6 +8,7 @@ Modelos disponíveis hoje:
 | Modelo | Skill | O que faz |
 |---|---|---|
 | Green Screen — React vídeos e notícias | `green-screen-react` | Apresentador recortado na frente de um vídeo, legenda palavra por palavra, CTA no final |
+| Vídeo B-roll informativo | `broll-informativo` | Um clipe de fundo (casas, obra...) de 15 a 20 s com blocos de texto em caixinhas pretas/brancas/vermelhas por cima. Sem apresentador, sem som (a música é escolhida no Instagram) |
 
 ---
 
@@ -124,13 +125,21 @@ em linguagem normal, ex.: "sobe a legenda um pouco" ou "apresentador um pouco ma
 
 ### Como gerar um vídeo (para o Claude)
 
-Use a skill **`green-screen-react`** (`.claude/skills/green-screen-react/SKILL.md`): ela
-descreve as perguntas, o comando e a checagem final. Resumo:
+Cada modelo tem a sua skill em `.claude/skills/<skill>/SKILL.md`, com as perguntas, o comando e
+a checagem final. Use a do modelo pedido (tabela do início). Resumo:
+
+**Green Screen** (`green-screen-react`):
 
 ```bash
 python scripts/gerar_video.py --nome <nome> \
   --apresentador <arquivo> --fundo <arquivo-ou-link> \
   --cta1 "<linha de cima>" --cta2 "<linha de baixo>"
+```
+
+**Vídeo B-roll informativo** (`broll-informativo`), só render (1 a 3 min):
+
+```bash
+python scripts/gerar_broll.py --nome <nome> --fundo <clipe-ou-link>   --blocos '[{"texto":"Título","cor":"vermelho"},{"texto":"Texto","cor":"branco"}]'
 ```
 
 Saída: `out/<nome>.mp4`. Antes de entregar, confira a linha `repetidos: 0 | fora de ordem: 0`;
@@ -160,9 +169,11 @@ i5-videos/
 ├── HANDOFF.md                  ← este arquivo
 ├── src/
 │   ├── Root.tsx                ← registra as composições
-│   └── GreenScreen/            ← modelo Green Screen (vídeo, legendas, CTA)
+│   ├── GreenScreen/            ← modelo Green Screen (vídeo, legendas, CTA)
+│   └── BrollInformativo/       ← modelo Vídeo B-roll informativo (clipe + blocos de texto)
 ├── scripts/
-│   ├── gerar_video.py          ← roda tudo de ponta a ponta (use este)
+│   ├── gerar_video.py          ← Green Screen, de ponta a ponta
+│   ├── gerar_broll.py          ← Vídeo B-roll informativo, de ponta a ponta
 │   ├── recortar.py             ← recorta o apresentador por IA → WebP
 │   ├── transcrever.py          ← fala → palavras com tempo (legendas)
 │   └── verificar_fluidez.py    ← conta quadros repetidos/fora de ordem
@@ -170,7 +181,7 @@ i5-videos/
 ├── public/videos/<nome>/       ← mídia de trabalho (fora do Git)
 ├── referencias/                ← vídeos/prints de referência (fora do Git)
 ├── out/                        ← vídeos finais (fora do Git)
-└── .claude/skills/             ← skills (green-screen-react + Remotion)
+└── .claude/skills/             ← skills (uma por modelo + Remotion)
 ```
 
 ## 4. Problemas comuns

@@ -8,6 +8,14 @@ import {
   greenScreenDefaults,
 } from "./GreenScreen/GreenScreenReact";
 import type { GreenScreenProps } from "./GreenScreen/types";
+import {
+  ALTURA as BROLL_ALTURA,
+  BrollInformativo,
+  FPS as BROLL_FPS,
+  LARGURA as BROLL_LARGURA,
+  brollDefaults,
+} from "./BrollInformativo/BrollInformativo";
+import type { BrollProps } from "./BrollInformativo/types";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -22,6 +30,18 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={greenScreenDefaults}
         calculateMetadata={({ props }: { props: GreenScreenProps }) => ({
           durationInFrames: Math.round(props.duracaoSegundos * FPS),
+        })}
+      />
+      <Composition
+        id="BrollInformativo"
+        component={BrollInformativo}
+        width={BROLL_LARGURA}
+        height={BROLL_ALTURA}
+        fps={BROLL_FPS}
+        durationInFrames={BROLL_FPS * brollDefaults.duracaoSegundos}
+        defaultProps={brollDefaults}
+        calculateMetadata={({ props }: { props: BrollProps }) => ({
+          durationInFrames: Math.round(props.duracaoSegundos * BROLL_FPS),
         })}
       />
     </>
