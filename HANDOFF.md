@@ -112,7 +112,7 @@ em linguagem normal, ex.: "sobe a legenda um pouco" ou "apresentador um pouco ma
 4. **Pastas locais** (ficam fora do Git, crie se não existirem): `referencias/`,
    `public/videos/`, `out/`.
 5. **Verificar o Remotion:** `npx remotion compositions src/index.ts`. Deve listar
-   `GreenScreenReact`. Na primeira vez baixa o Chrome headless (pode levar alguns minutos).
+   `GreenScreenReact` e `BrollInformativo`. Na primeira vez baixa o Chrome headless (pode levar alguns minutos).
 6. **Verificar o ffmpeg do Remotion:** `node node_modules/@remotion/cli/remotion-cli.js ffmpeg -version`.
 7. **Verificar o Python:** `python -c "import rembg, faster_whisper, yt_dlp, PIL, numpy; print('ok')"`.
    Os modelos de IA são baixados só no primeiro uso real (recorte ~176 MB, Whisper ~480 MB);
