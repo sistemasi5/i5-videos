@@ -31,15 +31,17 @@ primeira vez (os modelos de IA são baixados).
 
 ### 1.2 Pegar o projeto
 
-Peça acesso ao repositório **sistemasi5/i5-videos** no GitHub (quem administra a conta da
-empresa libera) e clone:
+Entre no GitHub com a **conta da empresa (`sistemasi5`)**, a mesma usada em todos os projetos.
+Com ela não precisa de convite. Depois clone o repositório **sistemasi5/i5-videos**:
 
 ```bash
 git clone https://github.com/sistemasi5/i5-videos.git
 cd i5-videos
 ```
 
-Se pedir login, use sua conta do GitHub (ou rode `gh auth login`).
+Se pedir login, use a conta da empresa (ou rode `gh auth login`). Se por algum motivo você
+precisar usar a sua conta pessoal, peça a quem administra a conta da empresa para te adicionar
+em Settings → Collaborators do repositório.
 
 ### 1.3 Abrir no Claude e mandar o prompt de preparação
 
