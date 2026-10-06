@@ -10,7 +10,7 @@ Uso (a partir da raiz do projeto):
   texto (use \n para quebrar linha), cor ("branco" | "preto" | "vermelho"),
   entra (segundo em que aparece; omitido = desde o início), fonte ("sans" | "serifa").
 
-Etapas: 1. copia/baixa o clipe  2. renderiza  3. confere a fluidez.
+Etapas: 1. baixa/corta o clipe  2. renderiza  3. confere a fluidez.
 Saída: out/<nome>.mp4 (sem áudio: a música é escolhida no Instagram).
 """
 import argparse
@@ -67,6 +67,17 @@ def baixar(url, destino):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def preparar(origem, destino, inicio, dur):
+    """Corta o trecho e converte para H.264 vertical 1080x1920, 30 fps, sem som.
+    Celular grava em HEVC/HDR a 60 fps: pesado e com cor errada no render."""
+    ffmpeg(
+        "-ss", inicio, "-t", dur, "-i", origem, "-an", "-r", 30,
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+        "-c:v", "libx264", "-crf", "23", "-maxrate", "10M", "-bufsize", "20M",
+        "-pix_fmt", "yuv420p", destino,
+    )
+
+
 def ler_blocos(valor):
     texto = Path(valor).read_text(encoding="utf-8") if Path(valor).is_file() else valor
     try:
@@ -99,13 +110,14 @@ def main():
     fundo = pasta / "fundo.mp4"
 
     print("1/3 Clipe")
-    if not fundo.exists():
-        if re.match(r"https?://", a.fundo):
-            baixar(a.fundo, fundo)
-        else:
-            shutil.copyfile(Path(a.fundo).resolve(), fundo)
+    if re.match(r"https?://", a.fundo):
+        origem = pasta / "original.mp4"
+        if not origem.exists():
+            baixar(a.fundo, origem)
+    else:
+        origem = Path(a.fundo).resolve()
 
-    disponivel = round(duracao(fundo) - a.inicio, 2)
+    disponivel = round(duracao(origem) - a.inicio, 2)
     dur = a.duracao if a.duracao else min(disponivel, DURACAO_MAXIMA)
     if dur > disponivel:
         sys.exit(f"O clipe só tem {disponivel} s a partir do segundo {a.inicio}; peça no máximo isso.")
@@ -113,10 +125,11 @@ def main():
         if b.get("entra", 0) >= dur:
             sys.exit(f"Bloco {i} entra em {b['entra']} s, depois do fim do vídeo ({dur} s).")
     print(f"   duração do vídeo: {dur} s")
+    preparar(origem, fundo, a.inicio, dur)
 
     props = {
         "fundoSrc": f"videos/{a.nome}/fundo.mp4",
-        "fundoInicio": a.inicio,
+        "fundoInicio": 0,
         "duracaoSegundos": dur,
         "blocos": blocos,
     }
@@ -129,7 +142,7 @@ def main():
     saida = RAIZ / "out" / f"{a.nome}.mp4"
     saida.parent.mkdir(exist_ok=True)
     cmd = ["node", str(CLI), "render", "src/index.ts", "BrollInformativo", str(saida),
-           f"--props={props_json}"]
+           f"--props={props_json}", "--crf=23"]
     for tentativa in (1, 2):  # o render às vezes falha de forma intermitente
         if subprocess.run(cmd, cwd=RAIZ).returncode == 0:
             break
