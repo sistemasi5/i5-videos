@@ -35,9 +35,13 @@ Entre no GitHub com a **conta da empresa (`sistemasi5`)**, a mesma usada em todo
 Com ela não precisa de convite. Depois clone o repositório **sistemasi5/i5-videos**:
 
 ```bash
+git config --global core.longpaths true
 git clone https://github.com/sistemasi5/i5-videos.git
 cd i5-videos
 ```
+
+Clone em uma pasta curta (ex.: `C:\Projetos` ou `Documentos`). O Windows tem limite de tamanho de
+caminho e o projeto tem pastas bem aninhadas; em pasta muito funda o clone falha pela metade.
 
 Se pedir login, use a conta da empresa (ou rode `gh auth login`). Se por algum motivo você
 precisar usar a sua conta pessoal, peça a quem administra a conta da empresa para te adicionar
@@ -181,6 +185,7 @@ i5-videos/
 | Download de link do Instagram falha | Só funciona para Reels públicos. Peça o arquivo e coloque em `referencias/` |
 | Vídeo e áudio baixados separados | Normal no Instagram: o script junta com `-c copy` |
 | Recorte muito lento | Esperado em CPU (~1 s/quadro). Use vídeos curtos e rode em segundo plano |
+| `git clone` termina com aviso de arquivos não extraídos (Windows) | Caminho longo demais: rode `git config --global core.longpaths true`, apague a pasta e clone de novo numa pasta curta |
 | `git clone` pede chave SSH | Use a URL HTTPS acima, ou peça para adicionarem sua chave SSH |
 
 ## 5. Atualizar o projeto
