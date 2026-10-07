@@ -94,6 +94,13 @@ def sincronizar(cartoes, palavras, antecedencia=0.3, duracao=4.0):
 
 def agrupar(palavras):
     """Agrupa palavras com tempo em legendas de até 3 palavras (quebra em pontuação)."""
+    unidas = []
+    for w in palavras:  # o Whisper separa "mantê-la" em "mantê" + "-la": junta de volta
+        if unidas and w["texto"].startswith("-"):
+            unidas[-1] = {"texto": unidas[-1]["texto"] + w["texto"], "inicio": unidas[-1]["inicio"], "fim": w["fim"]}
+        else:
+            unidas.append(w)
+    palavras = unidas
     grupos, atual = [], []
     for w in palavras:
         atual.append(w)

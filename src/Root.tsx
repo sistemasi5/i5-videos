@@ -24,6 +24,14 @@ import {
   casasDefaults,
 } from "./MostrandoCasas/MostrandoCasas";
 import type { CasasProps } from "./MostrandoCasas/types";
+import {
+  ALTURA as CAIXA_ALTURA,
+  CaixinhaPerguntas,
+  FPS as CAIXA_FPS,
+  LARGURA as CAIXA_LARGURA,
+  caixinhaDefaults,
+} from "./CaixinhaPerguntas/CaixinhaPerguntas";
+import type { CaixinhaProps } from "./CaixinhaPerguntas/types";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -62,6 +70,18 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={casasDefaults}
         calculateMetadata={({ props }: { props: CasasProps }) => ({
           durationInFrames: Math.round(props.duracaoSegundos * CASAS_FPS),
+        })}
+      />
+      <Composition
+        id="CaixinhaPerguntas"
+        component={CaixinhaPerguntas}
+        width={CAIXA_LARGURA}
+        height={CAIXA_ALTURA}
+        fps={CAIXA_FPS}
+        durationInFrames={CAIXA_FPS * caixinhaDefaults.duracaoSegundos}
+        defaultProps={caixinhaDefaults}
+        calculateMetadata={({ props }: { props: CaixinhaProps }) => ({
+          durationInFrames: Math.round(props.duracaoSegundos * CAIXA_FPS),
         })}
       />
     </>

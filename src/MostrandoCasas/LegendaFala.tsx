@@ -3,11 +3,12 @@ import { poppins } from "./CartaoInfo";
 import type { Legenda } from "./types";
 
 /** Legenda de fala: grupos curtos em branco, negrito, com sombra (como o reel de referência). */
-export const LegendaFala: React.FC<{ legendas: Legenda[]; topo: number; limiteFrame: number }> = ({
-  legendas,
-  topo,
-  limiteFrame,
-}) => {
+export const LegendaFala: React.FC<{
+  legendas: Legenda[];
+  topo: number;
+  limiteFrame: number;
+  tamanho?: number;
+}> = ({ legendas, topo, limiteFrame, tamanho = 58 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   if (frame >= limiteFrame) return null;
@@ -23,7 +24,7 @@ export const LegendaFala: React.FC<{ legendas: Legenda[]; topo: number; limiteFr
         textAlign: "center",
         fontFamily: poppins,
         fontWeight: 800,
-        fontSize: 58,
+        fontSize: tamanho,
         lineHeight: 1.15,
         color: "#fff",
         textShadow: "0 3px 12px rgba(0,0,0,0.75), 0 0 3px rgba(0,0,0,0.8)",
