@@ -16,6 +16,14 @@ import {
   brollDefaults,
 } from "./BrollInformativo/BrollInformativo";
 import type { BrollProps } from "./BrollInformativo/types";
+import {
+  ALTURA as CASAS_ALTURA,
+  FPS as CASAS_FPS,
+  LARGURA as CASAS_LARGURA,
+  MostrandoCasas,
+  casasDefaults,
+} from "./MostrandoCasas/MostrandoCasas";
+import type { CasasProps } from "./MostrandoCasas/types";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -42,6 +50,18 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={brollDefaults}
         calculateMetadata={({ props }: { props: BrollProps }) => ({
           durationInFrames: Math.round(props.duracaoSegundos * BROLL_FPS),
+        })}
+      />
+      <Composition
+        id="MostrandoCasas"
+        component={MostrandoCasas}
+        width={CASAS_LARGURA}
+        height={CASAS_ALTURA}
+        fps={CASAS_FPS}
+        durationInFrames={CASAS_FPS * casasDefaults.duracaoSegundos}
+        defaultProps={casasDefaults}
+        calculateMetadata={({ props }: { props: CasasProps }) => ({
+          durationInFrames: Math.round(props.duracaoSegundos * CASAS_FPS),
         })}
       />
     </>
