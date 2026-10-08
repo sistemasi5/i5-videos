@@ -5,7 +5,7 @@ description: Gera vídeos 9:16 no modelo "Mostrando casas" da I5 (marca Traction
 
 # Mostrando casas (9:16, 30 a 45 s)
 
-Um tour vertical por um imóvel (vídeo gravado no celular, um clipe contínuo) com:
+Um tour vertical por um imóvel (vídeo gravado no celular; pode ser um clipe contínuo ou uma montagem de trechos) com:
 
 1. **Abertura** em texto solto sobre o vídeo (sem caixa), com o gancho: "olha essa **oportunidade**
    que está indo a leilão" + 📍 local.
@@ -51,7 +51,7 @@ da casa** e liste os campos, para ela só preencher:
 Diga que pode deixar em branco o que não souber: só entra no vídeo o que for preenchido, e **nunca
 se inventa número**. Depois, pergunte só o que faltar:
 
-1. **O tour** — arquivo ou link do vídeo do imóvel (um clipe só, vertical, até ~45 s).
+1. **O tour** — arquivo ou link do vídeo do imóvel (vertical; se for longo, recorte com `montar_tour.py`; o vídeo final vai até ~60 s).
    Se o link não abrir, peça para copiar o arquivo para `referencias/` (pasta ignorada pelo Git).
 2. **O texto** — a pessoa já tem o texto pronto, ou gero a partir da ficha com o prompt de
    `roteiro.md`? (Se gerar, mostre o texto e peça aprovação antes de renderizar.)
@@ -89,6 +89,51 @@ Quando há fala (`--falado`) ou texto (`--texto`), o cartão deve **aparecer no 
 - Se a palavra não for achada, o script para e aponta o cartão. A transcrição fica em
   `public/videos/<nome>/fala.json` (só com `--falado`).
 - Sem `quando`, `entra`/`sai` manuais ou a divisão por igual continuam valendo.
+
+## Tour longo: recortar e acelerar (`montar_tour.py`)
+
+Quando o vídeo bruto é longo (ex.: 4 min), monte antes um tour de 40 a 60 s:
+
+1. Extraia quadros espaçados (1 a cada 4 s) e veja o que tem em cada trecho.
+2. **Transcreva o original** (`scripts/transcrever.py`) e leia a fala **antes de decidir o som**:
+   ela pode ter instruções para o editor ("acelera o vídeo") e **números que contradizem a ficha**
+   (ex.: ele diz "5 quartos e 4 banheiros" e a ficha diz "3 quartos e 2 banheiros" do andar de cima).
+   Se houver conflito, pergunte à pessoa o que mostrar; o recomendado é mostrar os dois, cada um
+   no momento em que a voz o diz.
+3. Escolha os trechos e monte:
+
+```bash
+python scripts/montar_tour.py --origem tour-longo.mp4 --saida public/videos/<nome>/montado.mp4   --trechos '[{"inicio":0,"duracao":5,"vel":1,"som":true},
+              {"inicio":56,"duracao":18,"vel":3},
+              {"inicio":150,"duracao":9.5,"vel":1,"som":true}]'
+```
+
+- `vel` acelera (2 = dobro). Caminhadas em 2x–3x; cômodos que valem mostrar em 1x–1,5x.
+- `"som": true` mantém a voz original (só com `vel` 1, porque fala acelerada fica ilegível). Use nos
+  trechos em que a pessoa diz algo aproveitável (abertura, números, chamada final). Os demais ficam
+  mudos.
+- O script imprime onde cada trecho cai no vídeo novo (use esses tempos nos cartões).
+- Limitação: o ffmpeg do Remotion não tem o filtro `setpts`; a velocidade usa `-itsscale`.
+
+Depois, transcreva a **montagem**, revise as legendas (ex.: o Whisper escreveu "Atrasvirt" no lugar
+de "Atlas"), salve em `.json` e gere com `--legendas` (mantém o som do `--fundo`):
+
+```bash
+python scripts/gerar_casas.py --nome <nome> --fundo public/videos/<nome>/montado.mp4   --legendas public/videos/<nome>/legendas.json --duracao <duração da montagem> --cartoes '[...]'
+```
+
+## Padrão do vídeo: legenda + palavras de destaque (não esqueça)
+
+O vídeo **não deve sair só com cartões e mudo**. Por padrão, proponha e entregue:
+
+- **Som e legenda** sempre que houver fala aproveitável (`--falado` ou `--legendas`); mudo só quando
+  não existe fala útil ou a pessoa pedir.
+- **Palavras de destaque** (cartões) algumas vezes durante o vídeo, no instante em que o assunto
+  aparece (números da ficha, "cozinha integrada", "loft", chamada final), usando só o que a pessoa
+  disse ou informou.
+
+Se o pedido trouxer só a ficha, **não interprete como "só dois cartões"**: monte também as
+legendas e os destaques e mostre o plano antes de renderizar.
 
 ## Como montar
 
@@ -167,5 +212,6 @@ Zona segura (1080×1920): topo 140 px, base 420 px, direita 140 px.
 ## Arquivos
 
 - `roteiro.md` — prompt para gerar o texto a partir da ficha da casa
+- `scripts/montar_tour.py` — recorta e acelera um vídeo longo (com som opcional por trecho)
 - `scripts/gerar_casas.py` — roda tudo (use este; reaproveita funções de `gerar_broll.py`)
 - `src/MostrandoCasas/` — template (`MostrandoCasas`, `AberturaTexto`, `CartaoInfo`, `LegendaFala`, `types`)

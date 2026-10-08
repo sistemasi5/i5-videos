@@ -35,7 +35,7 @@ from pathlib import Path
 
 from gerar_broll import CLI, PY, RAIZ, baixar, duracao, ffmpeg, preparar
 
-DURACAO_MAXIMA = 45  # tour + cartões; o reel de referência tem ~38 s
+DURACAO_MAXIMA = 60  # tour + cartões; os reels de referência têm ~38 s, mas o Reels aceita mais
 TELA_FINAL = 3
 MARCAS = {
     "traction": {"logoSrc": "brand/traction-logo.png", "corTelaFinal": "#000000"},
@@ -166,6 +166,7 @@ def main():
     p.add_argument("--logo", choices=sorted(MARCAS),
                    help="só se pedirem a logo: traction = mentoria · atlas = imobiliária Atlas Realty")
     p.add_argument("--texto", help="texto pronto que vira legenda no tour, ou caminho de um .txt")
+    p.add_argument("--legendas", help="JSON com legendas já revisadas ([{texto,inicio,fim}]); mantém o som do --fundo")
     p.add_argument("--falado", action="store_true", help="tour com fala: mantém o som e legenda a fala")
     p.add_argument("--sem-final", action="store_true", help="com --logo, não adiciona a tela final")
     p.add_argument("--ajustes", help='JSON com ajustes, ex.: {"cartaoTopo": 1200, "corDestaque": "#F96830"}')
@@ -210,10 +211,16 @@ def main():
             sys.exit(f"Cartão {i} entra em {c['entra']} s, depois do fim do tour ({tour} s).")
     print(f"   tour: {tour} s + tela final: {final} s = {total} s")
     # o clipe fica de fundo só no tour; a tela final preta cobre o resto
+    if a.legendas and (a.falado or a.texto):
+        sys.exit("Use --legendas sozinho (legendas já revisadas), sem --falado nem --texto.")
     if a.falado and a.texto:
         sys.exit("Use --falado (legenda a fala do tour) ou --texto (texto pronto), não os dois.")
     legendas, palavras = [], []
-    if a.texto:
+    if a.legendas:
+        legendas = json.loads(Path(a.legendas).read_text(encoding="utf-8"))
+        palavras = [{"texto": l["texto"], "inicio": l["inicio"], "fim": l["fim"]} for l in legendas]
+        preparar_com_audio(origem, fundo, a.inicio, tour)
+    elif a.texto:
         txt = Path(a.texto).read_text(encoding="utf-8") if Path(a.texto).is_file() else a.texto
         legendas, palavras = legendas_do_texto(txt, tour)
         preparar(origem, fundo, a.inicio, tour)
@@ -236,7 +243,7 @@ def main():
         "duracaoSegundos": total,
         "cartoes": cartoes,
         "telaFinalSegundos": final,
-        "comAudio": a.falado,
+        "comAudio": a.falado or bool(a.legendas),
         "legendas": legendas,
         **marca,
     }
