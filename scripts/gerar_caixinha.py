@@ -5,10 +5,12 @@ Uso (a partir da raiz do projeto):
       --fundo caminho/resposta.mp4              (ou um link)
       --pergunta "Felipe, como você decide se um imóvel vale o flip ou não?" \
       [--selos '[{"texto":"AULA","quando":"aula"}]'] [--legendas legendas.json] \
+      [--caixa fixa|inicio] [--caixa-segundos 6] \
       [--duracao 60] [--inicio 0] [--ajustes '{"caixaTopo": 1100}']
 
 A pessoa responde falando para a câmera. O vídeo mantém o SOM, transcreve a fala (Whisper) e
-legenda; a pergunta fica fixa na caixinha durante o vídeo todo.
+legenda. Dois modelos de caixinha: --caixa fixa (padrão) deixa a pergunta na tela o vídeo todo;
+--caixa inicio mostra a pergunta no começo e a retira depois de --caixa-segundos (padrão 6).
 --selos: caixas vermelhas com uma palavra de destaque (ex.: AULA). "quando": "palavra" faz o selo
   entrar quando essa palavra é dita; ele fica até o fim (ou use "sai", em segundos).
 --legendas: caminho de um .json com as legendas já revisadas ([{"texto","inicio","fim"}]). Sem ele,
@@ -47,6 +49,10 @@ def main():
     p.add_argument("--legendas", help="JSON com legendas já revisadas (pula a transcrição)")
     p.add_argument("--duracao", type=float, help="duração em segundos (padrão: o vídeo todo, até 120 s)")
     p.add_argument("--inicio", type=float, default=0, help="segundo do vídeo em que começa")
+    p.add_argument("--caixa", choices=["fixa", "inicio"], default="fixa",
+                   help="fixa: caixinha o vídeo todo (padrão) | inicio: aparece no começo e some")
+    p.add_argument("--caixa-segundos", type=float, default=6,
+                   help="no modelo inicio, por quantos segundos a caixinha fica na tela (padrão 6)")
     p.add_argument("--ajustes", help='JSON com ajustes, ex.: {"caixaTopo": 1100, "legendaTopo": 990}')
     a = p.parse_args()
 
@@ -95,6 +101,8 @@ def main():
         "fundoInicio": 0,
         "duracaoSegundos": dur,
         "pergunta": a.pergunta,
+        "caixaModo": a.caixa,
+        "caixaSegundos": a.caixa_segundos,
         "comAudio": True,
         "legendas": legendas,
         "selos": selos,

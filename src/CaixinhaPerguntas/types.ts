@@ -16,6 +16,13 @@ export type CaixinhaProps = {
   duracaoSegundos: number;
   /** Pergunta que aparece na caixinha, fixa durante o vídeo todo. */
   pergunta: string;
+  /**
+   * Modelo da caixinha: "fixa" = fica na tela o vídeo todo; "inicio" = aparece no começo
+   * e some depois de `caixaSegundos`.
+   */
+  caixaModo: "fixa" | "inicio";
+  /** Só no modelo "inicio": por quantos segundos a caixinha fica na tela antes de sumir. */
+  caixaSegundos: number;
   /** Título da caixinha (padrão: "Faça uma pergunta", como no Instagram). */
   tituloCaixa: string;
   /** true: mantém o som do vídeo (padrão, porque a pessoa está respondendo falando). */

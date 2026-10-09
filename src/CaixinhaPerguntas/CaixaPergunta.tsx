@@ -1,17 +1,24 @@
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
-import { spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 
 export const inter = loadInter("normal", { weights: ["500", "800"] }).fontFamily;
 
 /** Caixinha de perguntas do Instagram: cabeçalho escuro + corpo branco com a pergunta. */
-export const CaixaPergunta: React.FC<{ titulo: string; pergunta: string; topo: number }> = ({
-  titulo,
-  pergunta,
-  topo,
-}) => {
+export const CaixaPergunta: React.FC<{
+  titulo: string;
+  pergunta: string;
+  topo: number;
+  /** Frame em que a caixinha começa a sumir; sem isso, fica o vídeo todo. */
+  saiNoFrame?: number;
+}> = ({ titulo, pergunta, topo, saiNoFrame }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const t = spring({ frame, fps, config: { damping: 16, stiffness: 160 }, durationInFrames: 12 });
+  const entrada = spring({ frame, fps, config: { damping: 16, stiffness: 160 }, durationInFrames: 12 });
+  const saida =
+    saiNoFrame === undefined ? 0 : interpolate(frame, [saiNoFrame, saiNoFrame + 10], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  if (saiNoFrame !== undefined && frame >= saiNoFrame + 10) return null;
+  // na saída, encolhe e esmaece de leve (espelho da entrada)
+  const t = entrada * (1 - saida);
   return (
     <div
       style={{

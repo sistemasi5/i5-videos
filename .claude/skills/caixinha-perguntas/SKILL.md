@@ -29,6 +29,13 @@ Referência aprovada: reel `DbQ0pO0BbBa` (Felipe respondendo "como você decide 
 3. **A palavra de chamada** (ex.: AULA), se o vídeo terminar com "comenta aqui embaixo...".
 4. **Nome do vídeo** — curto, sem espaços.
 
+5. **Qual dos 2 modelos de caixinha** — **SEMPRE pergunte isso primeiro, antes de qualquer outra
+   coisa, mesmo que o pedido pareça completo** ("a caixinha fica permanente no vídeo ou só no
+   início?"). Só depois de a pessoa responder, peça o que faltar e gere:
+   - **Fixa** (padrão): a caixinha fica na tela o vídeo todo, como no reel de referência.
+   - **Só no início**: a caixinha aparece no começo e some depois de alguns segundos (padrão 6),
+     deixando o rosto livre durante o resto da resposta.
+
 ## Como gerar
 
 ```bash
@@ -38,6 +45,8 @@ python scripts/gerar_caixinha.py --nome flip-processo \
   --selos '[{"texto":"AULA","quando":"aula"}]'
 ```
 
+- `--caixa fixa|inicio` (padrão `fixa`) e `--caixa-segundos 6` (só no `inicio`: quanto tempo a
+  caixinha fica antes de sumir).
 - `--selos` (opcional): `"quando": "palavra"` faz o selo entrar quando a palavra é dita (0,2 s antes);
   fica até o fim, ou use `"sai"` em segundos.
 - `--duracao <s>`, `--inicio <s>`: cortar o vídeo.
@@ -66,13 +75,16 @@ Erro `No frame found at position`: o script tenta de novo com menos carga (até 
 | `caixaTopo` | 1110 | Topo da caixinha (px, vídeo de 1920). A caixinha tem ~360 px de altura |
 | `legendaTopo` | 1010 | Topo da legenda; o selo fica ~120 px acima |
 | `tamanhoLegenda` | 44 | Tamanho da letra da legenda (px; 58 era grande demais) |
+| `caixaModo` | "fixa" | "fixa" ou "inicio" (aparece no começo e some) |
+| `caixaSegundos` | 6 | No modo "inicio", segundos até a caixinha sumir |
 | `tituloCaixa` | "Faça uma pergunta" | Texto do cabeçalho |
 | `escurecer` | 0 | 0 a 1 |
 | `mostrarGuias` | false | Pinta de vermelho a zona do app |
 
 ## Decisões que não devem ser desfeitas
 
-- A caixinha fica **fixa durante o vídeo todo**, como no reel de referência.
+- O modelo padrão (`fixa`) mantém a caixinha **na tela o vídeo todo**, como no reel de referência.
+  O modelo `inicio` é a alternativa pedida pelo time: some depois de `caixaSegundos`.
 - O som do vídeo é mantido; a legenda acompanha a fala, não é texto solto.
 - A caixinha sobe um pouco em relação ao reel de referência para respeitar a zona segura (base 420 px).
 

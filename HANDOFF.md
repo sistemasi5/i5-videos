@@ -9,6 +9,7 @@ Modelos disponíveis hoje:
 |---|---|---|
 | Green Screen — React vídeos e notícias | `green-screen-react` | Apresentador recortado na frente de um vídeo, legenda palavra por palavra, CTA no final |
 | Vídeo B-roll informativo | `broll-informativo` | Um clipe de fundo (casas, obra...) de 15 a 20 s com blocos de texto em caixinhas pretas/brancas/vermelhas por cima. Sem apresentador, sem som (a música é escolhida no Instagram) |
+| Caixinha de perguntas | `caixinha-perguntas` | Resposta falada a uma pergunta de seguidor, com a pergunta numa caixinha estilo Instagram e legenda da fala. Dois modelos: caixinha permanente (`--caixa fixa`) ou só no início (`--caixa inicio`). Mantém o som |
 
 ---
 

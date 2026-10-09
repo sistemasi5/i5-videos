@@ -16,6 +16,8 @@ export const caixinhaDefaults: CaixinhaProps = {
   fundoInicio: 0,
   duracaoSegundos: 20,
   pergunta: "Como você decide se um imóvel vale o flip ou não? Tem um processo definido?",
+  caixaModo: "fixa",
+  caixaSegundos: 6,
   tituloCaixa: "Faça uma pergunta",
   comAudio: true,
   legendas: [],
@@ -38,7 +40,12 @@ export const CaixinhaPerguntas: React.FC<CaixinhaProps> = (props) => {
       />
       {props.escurecer > 0 ? <AbsoluteFill style={{ background: `rgba(0,0,0,${props.escurecer})` }} /> : null}
 
-      <CaixaPergunta titulo={props.tituloCaixa} pergunta={props.pergunta} topo={props.caixaTopo} />
+      <CaixaPergunta
+        titulo={props.tituloCaixa}
+        pergunta={props.pergunta}
+        topo={props.caixaTopo}
+        saiNoFrame={props.caixaModo === "inicio" ? Math.round(props.caixaSegundos * FPS) : undefined}
+      />
 
       {props.legendas.length > 0 ? (
         <LegendaFala legendas={props.legendas} topo={props.legendaTopo} limiteFrame={Number.MAX_SAFE_INTEGER} tamanho={props.tamanhoLegenda} />
