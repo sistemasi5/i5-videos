@@ -12,3 +12,6 @@ referencias
 # Midia de teste/trabalho (pesada, nao vai para o repositorio)
 public/videos/
 __pycache__
+
+# Tours de anuncios (fotos e clipes pesados)
+listing-walkthroughs/
