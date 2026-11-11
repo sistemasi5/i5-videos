@@ -1,0 +1,34 @@
+{
+  "depoente": "Rafael",
+  "mentor": "Felipe",
+  "subtitulo": "aluno da Traction",
+  "correcoes": [
+    {"em": 15.96, "texto": "deal"},
+    {"em": 16.32, "texto": ""},
+    {"em": 37.8, "texto": "no"},
+    {"em": 38.0, "texto": "Zillow,"}
+  ],
+  "cenas": [
+    {"tipo": "chegada", "trechos": [[6.45, 12.8]],
+     "textos": {"lugar": "TRACTION", "tempo": "1 MÊS"}, "momentos": {"mes": "mês"}},
+    {"tipo": "negocio_ruim", "trechos": [[14.12, 20.7]],
+     "textos": {"antes": "NEGÓCIO RUIM", "depois": "APRENDER"}, "momentos": {"ruim": "negócio", "aprender": "aprender"}},
+    {"tipo": "aula", "trechos": [[21.55, 31.75]],
+     "textos": {"total": "1h de aula", "destaque": "5 MIN QUE VALEM OURO"}, "momentos": {"cinco": "cinco"}},
+    {"tipo": "problema", "trechos": [[32.05, 44.0]],
+     "textos": {"erro": "OS NÚMEROS NÃO BATEM"}, "momentos": {"casas": "casas", "batem": "números"}},
+    {"tipo": "conselho", "trechos": [[44.85, 50.15]],
+     "textos": {"fala": "Faz o cálculo|e manda oferta!"}, "momentos": {"mandar": "mandar", "oferta": "cálculo"}},
+    {"tipo": "desconto", "trechos": [[53.55, 64.05], [64.8, 66.05, "mentor"]],
+     "textos": {"casa": "CASA PRÓPRIA", "de": "$460 mil", "por": "POR $320 MIL", "economia": "-$140k", "reacao": "CARACA, MEU!"},
+     "momentos": {"listada": "460", "fechando": "320", "caraca": "Caraca"}},
+    {"tipo": "contrato", "trechos": [[69.9, 79.45]],
+     "textos": {"papel": "SOB CONTRATO", "duvida": "SERÁ?!", "final": "ACONTECEU COMIGO!"},
+     "momentos": {"contrato": "contrato", "acontecer": "acontecer"}},
+    {"tipo": "valeu", "trechos": [[86.05, 92.2], [93.7, 96.45]],
+     "textos": {"dica": "5 min de dica", "bloqueio": "BLOQUEIO", "valor": "JÁ VALEU O INVESTIMENTO"},
+     "momentos": {"bloqueio": "bloqueio", "valeu": "valeu"}},
+    {"tipo": "convite", "trechos": [[96.65, 100.95]],
+     "textos": {"sub": "Quer conhecer o processo?", "frase": "Vale muito a pena!"}, "momentos": {"pena": "vale"}}
+  ]
+}

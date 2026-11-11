@@ -10,6 +10,8 @@ Modelos disponíveis hoje:
 | Green Screen — React vídeos e notícias | `green-screen-react` | Apresentador recortado na frente de um vídeo, legenda palavra por palavra, CTA no final |
 | Vídeo B-roll informativo | `broll-informativo` | Um clipe de fundo (casas, obra...) de 15 a 20 s com blocos de texto em caixinhas pretas/brancas/vermelhas por cima. Sem apresentador, sem som (a música é escolhida no Instagram) |
 | Caixinha de perguntas | `caixinha-perguntas` | Resposta falada a uma pergunta de seguidor, com a pergunta numa caixinha estilo Instagram e legenda da fala. Dois modelos: caixinha permanente (`--caixa fixa`) ou só no início (`--caixa inicio`). Mantém o som |
+| Mostrando casas | `mostrando-casas` | Tour de um imóvel (30 a 45 s) com cartões creme com os números da casa e pergunta final |
+| Depoimento animado | `depoimento-animado` | Áudio das melhores partes de um depoimento, ilustrado por bonequinhos animados (cenas sincronizadas com a fala) e legenda palavra por palavra |
 
 ---
 
@@ -171,10 +173,12 @@ i5-videos/
 ├── src/
 │   ├── Root.tsx                ← registra as composições
 │   ├── GreenScreen/            ← modelo Green Screen (vídeo, legendas, CTA)
-│   └── BrollInformativo/       ← modelo Vídeo B-roll informativo (clipe + blocos de texto)
+│   ├── BrollInformativo/       ← modelo Vídeo B-roll informativo (clipe + blocos de texto)
+│   └── DepoimentoAnimado/      ← modelo Depoimento animado (bonequinhos + cenas)
 ├── scripts/
 │   ├── gerar_video.py          ← Green Screen, de ponta a ponta
 │   ├── gerar_broll.py          ← Vídeo B-roll informativo, de ponta a ponta
+│   ├── gerar_depoimento.py     ← Depoimento animado, de ponta a ponta
 │   ├── recortar.py             ← recorta o apresentador por IA → WebP
 │   ├── transcrever.py          ← fala → palavras com tempo (legendas)
 │   └── verificar_fluidez.py    ← conta quadros repetidos/fora de ordem
