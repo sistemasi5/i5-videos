@@ -57,6 +57,14 @@ import {
 import type { TourViralProps } from "./TourViral/types";
 
 import { DiarioReforma } from "./DiarioReforma/DiarioReforma";
+import {
+  ALTURA as DEP_ALTURA,
+  DepoimentoAnimado,
+  FPS as DEP_FPS,
+  LARGURA as DEP_LARGURA,
+  depoimentoDefaults,
+} from "./DepoimentoAnimado/DepoimentoAnimado";
+import type { DepoimentoProps } from "./DepoimentoAnimado/types";
 import { ALTURA as DR_ALTURA, FPS as DR_FPS, FRAMES_TOTAIS as DR_FRAMES, LARGURA as DR_LARGURA } from "./DiarioReforma/tempo";
 
 export const RemotionRoot: React.FC = () => {
@@ -108,6 +116,18 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={caixinhaDefaults}
         calculateMetadata={({ props }: { props: CaixinhaProps }) => ({
           durationInFrames: Math.round(props.duracaoSegundos * CAIXA_FPS),
+        })}
+      />
+      <Composition
+        id="DepoimentoAnimado"
+        component={DepoimentoAnimado}
+        width={DEP_LARGURA}
+        height={DEP_ALTURA}
+        fps={DEP_FPS}
+        durationInFrames={DEP_FPS * depoimentoDefaults.duracaoSegundos}
+        defaultProps={depoimentoDefaults}
+        calculateMetadata={({ props }: { props: DepoimentoProps }) => ({
+          durationInFrames: Math.round(props.duracaoSegundos * DEP_FPS),
         })}
       />
       <Composition
